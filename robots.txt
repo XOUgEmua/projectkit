@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://projectkit.pages.dev/sitemap.xml
+Sitemap: https://projectkit.guillaumelegoux.workers.dev/sitemap.xml
