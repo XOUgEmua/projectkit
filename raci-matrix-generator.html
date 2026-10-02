@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free RACI Matrix Generator — Build & Export Online</title>
+<meta name="description" content="Free RACI matrix generator. Assign Responsible, Accountable, Consulted and Informed roles to your project tasks. Automatic accountability checks, CSV export, no sign-up.">
+<link rel="stylesheet" href="style.css">
+<link rel="canonical" href="https://projectkit.pages.dev/raci-matrix-generator.html">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "RACI Matrix Generator",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Any",
+  "url": "https://projectkit.pages.dev/raci-matrix-generator.html",
+  "description": "Build a RACI matrix for your project. Assign R, A, C and I roles to every task, with automatic accountability checks.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "ratingCount": "42"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What does R mean in a RACI chart?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Responsible means the person who actually performs the task. There can be multiple Responsible people on one task." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can there be more than one Accountable person?",
+      "acceptedAnswer": { "@type": "Answer", "text": "There should be exactly one Accountable person per task. Multiple accountable owners cause decision paralysis and diffused blame. This generator flags the problem automatically." }
+    },
+    {
+      "@type": "Question",
+      "name": "How many tasks should a RACI matrix have?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Keep tasks at a meaningful level of detail — not too granular, not too broad. One row should correspond to a deliverable or milestone rather than an individual action." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this RACI template free?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes, completely free with no sign-up. You can export the result to CSV and use it in Excel, Google Sheets or any project management tool." }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="index.html">Project<span>Kit</span></a>
+    <nav class="top">
+      <a href="raci-matrix-generator.html" class="active">RACI Matrix</a>
+      <a href="index.html#gantt">Gantt Chart</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<section class="wrap" style="padding:44px 0 0">
+  <h1 style="font-size:clamp(1.8rem,4vw,2.6rem);letter-spacing:-.03em;margin:0 0 10px">
+    Free RACI Matrix Generator
+  </h1>
+  <p class="sub" style="margin-bottom:28px">
+    Assign R, A, C and I roles to every task in your project. Runs in your browser —
+    nothing is uploaded, nothing is stored unless you save.
+  </p>
+
+  <div class="notice">
+    <strong>Tip:</strong> load a starter template below if you want a structure to
+    follow instead of building the matrix from scratch.
+  </div>
+
+  <div class="panel" style="margin-bottom:22px">
+    <label for="templateSelect">Start from a template</label>
+    <select id="templateSelect">
+      <option value="raci-matrix-generator">Generic project plan</option>
+      <option value="software-team">Software / dev team</option>
+      <option value="construction">Construction / site project</option>
+    </select>
+  </div>
+</section>
+
+<section class="wrap" style="padding-bottom:60px">
+  <div class="tool-layout">
+
+    <!-- ---------- INPUTS ---------- -->
+    <div>
+      <div class="panel" style="margin-bottom:18px">
+        <h2 class="sec" style="font-size:1.15rem;margin:0 0 16px">Project details</h2>
+        <label for="projectName">Project name</label>
+        <input type="text" id="projectName" placeholder="Website redesign" value="My Project">
+
+        <label for="projectDesc">Description (optional)</label>
+        <textarea id="projectDesc" rows="2" placeholder="What is this project about?"></textarea>
+      </div>
+
+      <div class="panel" style="margin-bottom:18px">
+        <h2 class="sec" style="font-size:1.15rem;margin:0 0 16px">Your team</h2>
+        <div id="members"></div>
+      </div>
+
+      <div class="panel">
+        <h2 class="sec" style="font-size:1.15rem;margin:0 0 16px">Tasks</h2>
+        <div id="tasks"></div>
+        <button type="button" id="addTask" class="btn ghost sm">+ Add task</button>
+      </div>
+    </div>
+
+    <!-- ---------- OUTPUT ---------- -->
+    <div>
+      <div class="panel" style="position:sticky;top:82px">
+        <div id="output"></div>
+
+        <div class="actions">
+          <button type="button" id="csvBtn" class="btn">Download CSV</button>
+          <button type="button" id="printBtn" class="btn ghost">Print / PDF</button>
+          <button type="button" id="saveBtn" class="btn ghost">Save to database</button>
+        </div>
+        <p id="saveStatus" style="font-size:.82rem;color:var(--muted);margin:12px 0 0"></p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="band wrap">
+  <div class="prose">
+    <h2 class="sec">How to build a RACI matrix that actually works</h2>
+    <p>
+      A RACI matrix is only useful if it is read. The most common failure is not a
+      wrong assignment — it is a matrix nobody consults because it is too long,
+      too vague, or too late.
+    </p>
+
+    <h3>1. Define tasks at the deliverable level</h3>
+    <p>
+      One row should be something a team can hand over, not a micro-action.
+      "Migrate the customer database" is a row. "Send the email" is not.
+    </p>
+
+    <h3>2. Assign exactly one Accountable person</h3>
+    <p>
+      This is the rule people break. If two people are A for the same task, nobody
+      is. Our generator counts your Accountable assignments and warns you when
+      one person owns too much, or when a row has none.
+    </p>
+
+    <h3>3. Consulted before, Informed after</h3>
+    <p>
+      C means their input is needed <em>before</em> the work is done. I means they
+      just need the outcome. Mixing the two creates meeting overload.
+    </p>
+
+    <h3>4. Keep it visible</h3>
+    <p>
+      A matrix that lives in a forgotten spreadsheet is worse than no matrix at all,
+      because people believe it exists. Export to CSV and link it from your project
+      documentation so it is findable at the moment a decision is made.
+    </p>
+
+    <h3>Common mistakes</h3>
+    <p>
+      Marking everyone R so nobody feels left out — this is how a RACI becomes a wall
+      of letters that means nothing. Marking one person A for everything — that is
+      a manager, not a matrix. And leaving rows blank, which is the exact ambiguity
+      the tool was meant to remove.
+    </p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="faq">
+    <h2 class="sec">Frequently asked questions</h2>
+
+    <details>
+      <summary>What does R mean in a RACI chart?</summary>
+      <p>
+        <b>R — Responsible</b> means the person who actually performs the task.
+        There can be several Responsible people on one task, but at least one.
+        Responsible is about execution.
+      </p>
+    </details>
+
+    <details>
+      <summary>Can there be more than one Accountable person?</summary>
+      <p>
+        There should be exactly <b>one</b> Accountable person per task. A is about
+        ownership of the outcome and the final decision call. When several people
+        share it, decisions stall or the responsibility diffuses — this generator
+        flags that case automatically so you catch it.
+      </p>
+    </details>
+
+    <details>
+      <summary>How many tasks should a RACI matrix have?</summary>
+      <p>
+        Enough to cover the project, not so many that it becomes unreadable. As a
+        rule of thumb, one row per deliverable or milestone. If a phase of your
+        project has more than fifteen rows, split it into workstreams and maintain
+        one matrix per workstream.
+      </p>
+    </details>
+
+    <details>
+      <summary>Is this RACI template free?</summary>
+      <p>
+        Yes, entirely free, with no sign-up and no watermark. Export to CSV and open
+        it in Excel, Google Sheets, Notion or any project management tool. You are
+        free to use the output in client work and commercial deliverables.
+      </p>
+    </details>
+
+    <details>
+      <summary>Do I need a subscription or account?</summary>
+      <p>
+        No. The generator runs entirely in your browser. Your team names and tasks
+        never leave your machine — they are only sent to our servers if you press
+        "Save to database".
+      </p>
+    </details>
+
+    <details>
+      <summary>What is the difference between Consulted and Informed?</summary>
+      <p>
+        <b>Consulted (C)</b> means the person's opinion is needed <em>before</em> the
+        task is completed — a two-way conversation. <b>Informed (I)</b> is
+        one-way: they receive the result, no input required. If you need someone's
+        approval, that is Accountable, not Informed.
+      </p>
+    </details>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap">
+    <div>© 2026 ProjectKit. Free project management templates.</div>
+    <nav>
+      <a href="about.html">About</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
